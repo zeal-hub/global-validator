@@ -265,6 +265,8 @@ export default class GlobalValidator {
     if (!Boolean(config)) return true;
 
     let errors: GlobalValidatorError[] = [];
+
+    return errors;
   }
 
   password(): void | boolean | GlobalValidatorError[] {}

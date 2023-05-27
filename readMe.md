@@ -1,4 +1,4 @@
-# GlobalValidator
+# Global Validator
 
 The GlobalValidator package provides a set of validation methods for various purposes such as validating text, passwords, integers, and phone numbers. It also allows configuring custom validation rules.
 
