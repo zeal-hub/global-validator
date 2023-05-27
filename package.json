@@ -1,0 +1,63 @@
+{
+  "name": "global-validator",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "The GlobalValidator package provides a set of validation methods for various purposes such as validating text, passwords, integers, and phone numbers. It also allows configuring custom validation rules.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "package": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeal-hub/global-validator.git"
+  },
+  "keywords": [
+    "validator",
+    "global",
+    "react",
+    "checker",
+    "verifier",
+    "validation",
+    "input validation",
+    "form validation",
+    "text validation",
+    "password validation",
+    "phone number validation",
+    "data validation",
+    "data integrity",
+    "error handling",
+    "error checking",
+    "validation rules",
+    "validation methods",
+    "type checking",
+    "input verification",
+    "data verification",
+    "input sanitization",
+    "input filtering",
+    "error messages",
+    "validation errors"
+  ],
+  "author": "Timi James",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zeal-hub/global-validator/issues"
+  },
+  "homepage": "https://github.com/zeal-hub/global-validator#readme",
+  "devDependencies": {
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "not < 0.5%",
+    "IE 11"
+  ]
+}
