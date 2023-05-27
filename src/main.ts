@@ -1,11 +1,6 @@
 import "./style.css";
 import GlobalValidator from "./lib/validator";
-import {
-  CountriesMethod,
-  CountryNames,
-  Validations,
-  Validator,
-} from "./lib/types";
+import { Validations, Validator } from "./lib/types";
 
 let validations: Validations = {
   allowedCharacters: ["d", "w"],
