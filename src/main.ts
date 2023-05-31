@@ -1,5 +1,5 @@
 import "./style.css";
-import GlobalValidator from "./lib/validator";
+import GlobalValidator from "../dist";
 import { Validations, Validator } from "./lib/types";
 
 let validations: Validations = {
