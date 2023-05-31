@@ -1,13 +1,14 @@
-import { countries } from "./countries";
+import { countriesDetail, countriesNames } from "./countries";
 import GlobalValidator from "./validator";
 
 export enum validationErrorMessages {
   ContainsTextPassword = "The provided value cannot contain letter",
   HasInvalidCharacter = "The provided value has invalid characters",
   HasNoLetter = "The provided value has no letter",
-  TooLong = "The provided value length is too long",
+  HasNoDigit = "The provided value has no digit",
+  ValueLengthMax = "The provided value length is too long",
   HasNoNumber = "The provided value has no number",
-  TooShort = "The provided value length is too short.",
+  ValueLengthMin = "The provided value length is too short.",
   HasNoLowerCase = "The provided value has no lowercase. e.g abcdef",
   HasNoUpperCase = "The Provided value has no uppercase. e.g ABCDEF",
   HasNoSymbol = "The provided value has no symbol. e.g #$&@*%!^",
@@ -16,23 +17,34 @@ export enum validationErrorMessages {
   NotStartWithRightCharacter = "The provided value do not start with the right character",
   NotEndWithRightCharacter = "The provided value do not end with the right character",
   IncludeNotAllowedWord = "The provided value includes not allowed word (set of character e.g. password, surname, name)",
+  UpperCaseLettersTooShort = "Uppercase letters in the password is too short, include more uppercase letters",
+  LowerCaseLettersTooShort = "Lowercase letters in the password is too short, include more lowercase letters",
+  DigitsLengthTooShort = "Length of digits is too short",
+  LettersLengthTooShort = "Length of letters in the provided value is too short",
+  SymbolsLengthTooShort = "Length of symbols in the provided value is too short. add more symbols",
 }
 
 export enum validationErrors {
   ContainsTextPassword = "ContainsTextPassword",
   HasInvalidCharacter = "HasInvalidCharacter",
   HasNoLetter = "HasNoLetter",
-  TooLong = "TooLong",
+  HasNoDigit = "HasNoDigit",
+  TooLong = "ValueLengthMax",
   HasNoNumber = "HasNoNumber",
-  TooShort = "TooShort",
+  TooShort = "ValueLengthMin",
   HasNoLowerCase = "HasNoLowerCase",
   HasNoUpperCase = "HasNoUpperCase",
+  UpperCaseLettersTooShort = "UpperCaseLettersTooShort",
+  LowerCaseLettersTooShort = "LowerCaseLettersTooShort",
   HasNoSymbol = "HasNoSymbol",
   StartsWithWrongCharacter = "StartsWithWrongCharacter",
   EndsWithWrongCharacter = "EndsWithWrongCharacter",
   NotStartWithRightCharacter = "NotStartWithRightCharacter",
   NotEndWithRightCharacter = "NotEndWithRightCharacter",
   IncludeNotAllowedWord = "IncludeNotAllowedWord",
+  DigitsLengthTooShort = "DigitsLengthTooShort",
+  LettersLengthTooShort = "LettersLengthTooShort",
+  SymbolsLengthTooShort = "SymbolsLengthTooShort",
 }
 
 export enum rangeValidationsErrors {
@@ -58,7 +70,7 @@ type RemoveSpaces<S extends string> = S extends `${infer L} ${infer R}`
 
 /** only check if the provided number length is the country number length */
 export type CountryNames = Extract<
-  (typeof countries)[number]["name"],
+  (typeof countriesNames)[number],
   string
 > extends infer Name
   ? Name extends `${infer First}${infer Rest}`
@@ -157,7 +169,25 @@ export type Validations = Partial<{
    *  - note: it is case sensitive
    */
   lowercase: boolean;
+  letter: boolean;
+  digit: boolean;
 }>;
+
+export type PasswordValidationType = {
+  digit: boolean | number;
+  letter: boolean | number;
+  uppercase: boolean | number;
+  lowercase: boolean | number;
+  symbol: boolean | number;
+  whitespace: boolean;
+  length: string;
+};
+
+export type PasswordReturnType = {
+  strength: number;
+  isValid: boolean;
+  errors: GlobalValidatorError[];
+};
 
 export const message = {
   validationErrors: validationErrorMessages,
@@ -169,6 +199,14 @@ export type GlobalValidatorError = {
   validationErrorMessage: string;
   errorCode: string;
 };
+
+export type ValidationConfig = {
+  value: string;
+  validations: Validations;
+  all?: boolean;
+};
+
+export type methods = keyof GlobalValidator;
 
 // export const testScenarios = [
 //   {

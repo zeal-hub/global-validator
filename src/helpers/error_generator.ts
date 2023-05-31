@@ -1,7 +1,12 @@
-import { GlobalValidatorError, validationErrors, message } from "../lib/types";
+import {
+  GlobalValidatorError,
+  validationErrors,
+  message,
+  validationErrorMessages,
+} from "../lib/types";
 
 export default function error_generator(
-  type: keyof typeof validationErrors
+  type: keyof typeof validationErrorMessages
 ): GlobalValidatorError {
   return {
     validationErrorMessage: message.validationErrors[type],

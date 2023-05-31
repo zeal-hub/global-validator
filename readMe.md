@@ -19,7 +19,7 @@ Install the GlobalValidator package using npm:
 Import the GlobalValidator class and instantiate it in your code. Here's an example of how to use the package:
 
 ```javascript
-import GlobalValidator from 'global-validator';
+import { GlobalValidator } from 'global_validator';
 
 const validator = new GlobalValidator();
 

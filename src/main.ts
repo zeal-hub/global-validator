@@ -13,4 +13,11 @@ const validator = new GlobalValidator();
 
 console.log(validator.validate({ value: "hello12", validations }));
 
-(validator.phoneNumber("+234 901 724 1037") as Validator).IsAustralia();
+console.log(
+  (
+    validator.phoneNumber("+234 901 724 1037") as unknown as Validator
+  ).IsNigeria()
+);
+
+window["validator"] = validator;
+window["GlobalValidator"] = GlobalValidator;
