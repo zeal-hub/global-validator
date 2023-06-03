@@ -4,7 +4,7 @@ export default function get_min_max(len) {
     }
     // trim the value to remove invalid characters
     let rangeValue = len?.trim() ?? "";
-    let isValid = new RegExp(/^(\d*:|:\d*|\d:\d)$/).test(rangeValue);
+    let isValid = new RegExp(/^\d*:|:\d*|\d:\d$/).test(rangeValue);
     // checking if input_value length is at least greater 1
     // check of the format of the range value, if it has a colon, number and not alphabet
     if (!rangeValue || rangeValue.length < 2 || !isValid) {

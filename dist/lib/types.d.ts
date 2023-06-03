@@ -60,7 +60,7 @@ export interface Country {
 }
 type RemoveSpaces<S extends string> = S extends `${infer L} ${infer R}` ? `${RemoveSpaces<`${L}${R}`>}` : S;
 /** only check if the provided number length is the country number length */
-export type CountryNames = Extract<(typeof countriesNames)[number], string> extends infer Name ? Name extends `${infer First}${infer Rest}` ? RemoveSpaces<`Is${First}${Rest}`> : never : never;
+export type CountryNames = Extract<(typeof countriesNames)[number], string> extends infer Name ? Name extends `${infer First}${infer Rest}` ? RemoveSpaces<`is${First}${Rest}`> : never : never;
 export type CountriesMethod = {
     [key in CountryNames]: (
     /**
@@ -153,13 +153,47 @@ export type Validations = Partial<{
     digit: boolean;
 }>;
 export type PasswordValidationType = {
-    digit: boolean | number;
-    letter: boolean | number;
-    uppercase: boolean | number;
-    lowercase: boolean | number;
-    symbol: boolean | number;
-    whitespace: boolean;
-    length: string;
+    /**
+     * Take in boolean or number.
+     * - **Boolean:** means that the password must contain digit
+     * - **Number:** means that the password must contain at least [number] digits
+     */
+    digit?: boolean | number;
+    /**
+     * Take in boolean or number.
+     * - **Boolean:** means that the password must contain letter
+     * - **Number:** means that the password must contain at least [number] letters
+     */
+    letter?: boolean | number;
+    /**
+     * Take in boolean or number.
+     * - **Boolean:** means that the password must contain uppercase
+     * - **Number:** means that the password must contain at least [number] uppercase
+     */
+    uppercase?: boolean | number;
+    /**
+     * Take in boolean or number.
+     * - **Boolean:** means that the password must contain lowercase
+     * - **Number:** means that the password must contain at least [number] lowercase
+     */
+    lowercase?: boolean | number;
+    /**
+     * Take in boolean or number.
+     * - **Boolean:** means that the password must contain symbol
+     * - **Number:** means that the password must contain at least [number] symbols
+     */
+    symbol?: boolean | number;
+    /**
+     * tell if the password can contain whitespace or not.
+     * default: false
+     */
+    whitespace?: boolean;
+    /**
+       * the format of length option is to separated with : - ([min]:[max])
+       - colon must be included or you get error
+       -  both min or max can't be empty.
+      */
+    length?: Validations["length"];
 };
 export type PasswordReturnType = {
     strength: number;

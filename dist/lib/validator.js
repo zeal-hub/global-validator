@@ -83,12 +83,10 @@ export default class GlobalValidator {
     has_length(value, len) {
         const [lowest, highest] = get_min_max(len);
         if (value.length < lowest) {
-            this.errors.push(error_generator(validationErrors.TooShort));
-            return false;
+            return !this.errors.push(error_generator(validationErrors.TooShort));
         }
         if (value.length > highest) {
-            this.errors.push(error_generator(validationErrors.TooLong));
-            return false;
+            return !this.errors.push(error_generator(validationErrors.TooLong));
         }
         else
             return true;
@@ -97,13 +95,13 @@ export default class GlobalValidator {
         let notIncludeValue = not_include;
         if (!notIncludeValue) {
             console.error("GlobalValidationError -> notInclude: - field can't be null or undefined");
+            return false;
         }
         // --------------------
-        else {
-            if (value.includes(notIncludeValue)) {
-                this.errors.push(error_generator(validationErrors.IncludeNotAllowedWord));
-            }
+        if (value.includes(notIncludeValue)) {
+            return !this.errors.push(error_generator(validationErrors.IncludeNotAllowedWord));
         }
+        return true;
     }
     has_uppercase(value, minLen) {
         let regex = new RegExp("[A-Z]", "g");
@@ -112,14 +110,13 @@ export default class GlobalValidator {
             if (minLen > upperLetters) {
                 if (!this.internal)
                     return false;
-                this.errors.push(error_generator(validationErrors.UpperCaseLettersTooShort));
-                return;
+                return !this.errors.push(error_generator(validationErrors.UpperCaseLettersTooShort));
             }
         }
         if (this.internal) {
             return upperLetters
                 ? true
-                : this.errors.push(error_generator(validationErrors.HasNoUpperCase));
+                : !this.errors.push(error_generator(validationErrors.HasNoUpperCase));
         }
         return upperLetters ? true : false;
     }
@@ -130,14 +127,13 @@ export default class GlobalValidator {
             if (minLen > lowerLetters) {
                 if (!this.internal)
                     return false;
-                this.errors.push(error_generator(validationErrors.LowerCaseLettersTooShort));
-                return;
+                return !this.errors.push(error_generator(validationErrors.LowerCaseLettersTooShort));
             }
         }
         if (this.internal) {
             return lowerLetters
                 ? true
-                : this.errors.push(error_generator(validationErrors.HasNoLowerCase));
+                : !this.errors.push(error_generator(validationErrors.HasNoLowerCase));
         }
         return lowerLetters ? true : false;
     }
@@ -148,13 +144,12 @@ export default class GlobalValidator {
             if (minLen > letters) {
                 if (!this.internal)
                     return false;
-                this.errors.push(error_generator(validationErrors.LettersLengthTooShort));
-                return;
+                return !this.errors.push(error_generator(validationErrors.LettersLengthTooShort));
             }
         }
         error = error_generator(validationErrors.HasNoLetter);
         if (this.internal) {
-            return letters ? true : this.errors.push(error);
+            return letters ? true : !this.errors.push(error);
         }
         return letters ? true : false;
     }
@@ -165,13 +160,12 @@ export default class GlobalValidator {
             if (minLen > digits) {
                 if (!this.internal)
                     return false;
-                this.errors.push(error_generator(validationErrors.DigitsLengthTooShort));
-                return;
+                return !this.errors.push(error_generator(validationErrors.DigitsLengthTooShort));
             }
         }
         error = error_generator(validationErrors.HasNoDigit);
         if (this.internal) {
-            return digits ? true : this.errors.push(error);
+            return digits ? true : !this.errors.push(error);
         }
         return digits ? true : false;
     }
@@ -182,13 +176,12 @@ export default class GlobalValidator {
             if (minLen > symbols) {
                 if (!this.internal)
                     return false;
-                this.errors.push(error_generator(validationErrors.SymbolsLengthTooShort));
-                return;
+                return !this.errors.push(error_generator(validationErrors.SymbolsLengthTooShort));
             }
         }
         error = error_generator(validationErrors.HasNoSymbol);
         if (this.internal) {
-            return symbols ? true : this.errors.push(error);
+            return symbols ? true : !this.errors.push(error);
         }
         return symbols ? true : false;
     }
@@ -337,34 +330,44 @@ export default class GlobalValidator {
             this.internal = true;
             if (!password) {
                 console.error("GlobalValidationError -> Password: password string can't be empty.");
-                return;
+                return false;
             }
             if (!Boolean(validations))
                 return true;
             let validationKeys = Object.keys(validations);
-            validationKeys.forEach((key, index) => {
+            let strength = {
+                lowercase: false,
+                uppercase: false,
+                digit: false,
+                letter: false,
+                length: false,
+            };
+            validationKeys.forEach((key) => {
                 let field = validations[key];
-                switch (key) {
-                    case "lowercase":
-                        this.has_lowercase(password, field);
-                        break;
-                    case "uppercase":
-                        this.has_uppercase(password, field);
-                        break;
-                    case "digit":
-                        this.has_digit(password, field);
-                        break;
-                    case "letter":
-                        this.has_letter(password, field);
-                        break;
-                    case "symbol":
-                        this.has_symbol(password, field);
-                        break;
-                    case "length":
-                        // @ts-ignore
-                        this.has_length(password, field);
-                    default:
-                        break;
+                if (field) {
+                    switch (key) {
+                        case "lowercase":
+                            strength[key] = this.has_lowercase(password, field);
+                            break;
+                        case "uppercase":
+                            strength[key] = this.has_uppercase(password, field);
+                            break;
+                        case "digit":
+                            strength[key] = this.has_digit(password, field);
+                            break;
+                        case "letter":
+                            strength[key] = this.has_letter(password, field);
+                            break;
+                        case "symbol":
+                            strength[key] = this.has_symbol(password, field);
+                            break;
+                        case "length":
+                            // @ts-ignore
+                            strength[key] = this.has_length(password, field);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             });
             if (!validations.whitespace) {
@@ -374,18 +377,10 @@ export default class GlobalValidator {
                     this.errors.push(error_generator(validationErrors.HasInvalidCharacter));
                 }
             }
-            // let strength = 0;
-            // if (validations.length) {
-            //   strength =
-            //     ((validationKeys.length - this.errors.length) /
-            //       (this.has_length(password, validations.length) ? 6 : 5)) *
-            //     100;
-            // }
+            let strengthRate = Object.values(strength).filter((t) => t).length;
             return {
                 isValid: this.errors.length ? false : true,
-                strength: validationKeys.length
-                    ? ((validationKeys.length - this.errors.length) / 6) * 100
-                    : 0,
+                strength: validationKeys.length ? (strengthRate / 6) * 100 : 0,
                 errors: this.errors,
             };
         }

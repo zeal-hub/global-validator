@@ -23,6 +23,8 @@ import GlobalValidator from 'global_validator';
 
 const validator = new GlobalValidator();
 
+
+// ================== Text Validation ==================
 // Validate text
 const textValidationConfig = {
   value: 'sample text',
@@ -42,6 +44,10 @@ if (Array.isArray(textErrors)) {
 } else {
   console.log('Validation successful');
 }
+// ===================== End of test validation ===================
+
+
+// =================== Phone Number Validation ====================
 
 // Validate phone number
 const phoneNumber = '+1234567890';
@@ -52,6 +58,53 @@ if (phoneValidationResult === true) {
 } else {
   console.log('Phone number validation failed');
 }
+
+// ================ End of phone number validation =============
+
+
+
+
+// ================== Password Validation =================
+
+
+// Define the validation criteria for the password
+const password_validations: PasswordValidationType = {
+  lowercase: 1, // password must contain lowercase
+  uppercase: 3, // Requires at least 3 uppercase letter
+  digit: 1, // Requires at least 1 digit
+  letter: true, // password must contain letter (uppercase | lowercase)
+  length: "8:", // Requires a minimum length of 8 characters
+};
+
+// Example password to validate
+const passwordToValidate = "Password123";
+
+// Create an instance of the class or object that contains the 'password' function
+const passwordValidator = new GlobalValidator();
+
+// Call the 'password' function with the password and validation criteria
+const result = passwordValidator.password(
+  passwordToValidate,
+  password_validations
+);
+
+// Check the result
+console.log({ result });
+
+// log
+{
+  "result": {
+    "isValid": false,
+    "strength": 66.66666666666666,
+    "errors": [
+      {
+        "validationErrorMessage": "Uppercase letters in the password is too short, include more uppercase letters",
+        "errorCode": "upper_case_letters_too_short"
+      }
+    ]
+  }
+}
+
 
 ```
 
