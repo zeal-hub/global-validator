@@ -1,2 +1,3 @@
 import GlobalValidator from "./lib/validator";
-export default GlobalValidator;
+declare const Validator: GlobalValidator;
+export default Validator;

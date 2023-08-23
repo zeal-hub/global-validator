@@ -13,15 +13,12 @@ The GlobalValidator package provides a set of validation methods for various pur
 
 Install the GlobalValidator package using npm:
 
-
 ## 😎 Usage
 
 Import the GlobalValidator class and instantiate it in your code. Here's an example of how to use the package:
 
 ```javascript
-import GlobalValidator from 'global_validator';
-
-const validator = new GlobalValidator();
+import validator from 'global_validator';
 
 
 // ================== Text Validation ==================
@@ -80,10 +77,10 @@ const password_validations: PasswordValidationType = {
 const passwordToValidate = "Password123";
 
 // Create an instance of the class or object that contains the 'password' function
-const passwordValidator = new GlobalValidator();
+const passwordValidator = validator.password;
 
 // Call the 'password' function with the password and validation criteria
-const result = passwordValidator.password(
+const result = passwordValidator(
   passwordToValidate,
   password_validations
 );
@@ -108,40 +105,40 @@ console.log({ result });
 
 ```
 
-
 The **validate** method accepts a configuration object with a value to be validated and a validations object defining the validation rules. The method returns true if the value passes all **validations**, or an array of **"GlobalValidatorError"** objects if there are validation errors.
 
 The phoneNumber method allows you to validate phone numbers. Simply provide a phone number as a parameter and chain the validate method to perform the validation.
 
 Here is a description of the class methods in tabular form:
 
-| Method                  |Description                                                                                                                                         |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `checkCharacters`       | Checks if the `value` contains characters specified in the `allowedCharacters` array and adds an error if invalid characters are present.         |
-| `has_length`            | Checks if the `value` has a length within the specified range and adds an error if the length is too short or too long.                              |
-| `not_include`           | Checks if the `value` contains a specific substring specified by `not_include` and adds an error if the substring is present.                         |
-| `has_uppercase`         | Checks if the `value` contains uppercase letters and adds an error if no uppercase letters are found.                                               |
-| `has_lowercase`         | Checks if the `value` contains lowercase letters and adds an error if no lowercase letters are found.                                               |
-| `has_letter`            | Checks if the `value` contains any letters and adds an error if no letters are found.                                                               |
-| `has_digit`             | Checks if the `value` contains any digits and adds an error if no digits are found.                                                                 |
-| `has_symbol`            | Checks if the `value` contains any symbols and adds an error if no symbols are found.                                                               
-| `validate`              | Performs multiple validations based on the provided configuration and returns `true` if all validations pass, `false` if any validation fails, or an array of `GlobalValidatorError` objects if errors occur during validation. |
-| `password`              | Validates a password based on the provided configuration and returns an object with information about the password's validity and strength.            |
-| `phoneNumber`           | Sets the phone number to be validated and then call target country i.e <b>`validator.phoneNumber("+234 811 176 4056").isNigeria()</b>` .                                                                                                               
+| Method            | Description                                                                                                                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `checkCharacters` | Checks if the `value` contains characters specified in the `allowedCharacters` array and adds an error if invalid characters are present.                                                                                       |
+| `has_length`      | Checks if the `value` has a length within the specified range and adds an error if the length is too short or too long.                                                                                                         |
+| `not_include`     | Checks if the `value` contains a specific substring specified by `not_include` and adds an error if the substring is present.                                                                                                   |
+| `has_uppercase`   | Checks if the `value` contains uppercase letters and adds an error if no uppercase letters are found.                                                                                                                           |
+| `has_lowercase`   | Checks if the `value` contains lowercase letters and adds an error if no lowercase letters are found.                                                                                                                           |
+| `has_letter`      | Checks if the `value` contains any letters and adds an error if no letters are found.                                                                                                                                           |
+| `has_digit`       | Checks if the `value` contains any digits and adds an error if no digits are found.                                                                                                                                             |
+| `has_symbol`      | Checks if the `value` contains any symbols and adds an error if no symbols are found.                                                                                                                                           |
+| `validate`        | Performs multiple validations based on the provided configuration and returns `true` if all validations pass, `false` if any validation fails, or an array of `GlobalValidatorError` objects if errors occur during validation. |
+| `password`        | Validates a password based on the provided configuration and returns an object with information about the password's validity and strength.                                                                                     |
+| `phoneNumber`     | Sets the phone number to be validated and then call target country i.e <b>`validator.phoneNumber("+234 811 176 4056").isNigeria()</b>` .                                                                                        |
 
 Please refer to the package documentation for detailed usage instructions and available validation methods.
 
 ## 🦮 Dependencies
+
 The GlobalValidator package has no external dependencies.
 
 ## 🎗️Typescript Support
+
 The GlobalValidator package includes TypeScript type declarations for enhanced development experience. The type declarations provide autocompletion and type checking support when using the package in TypeScript projects.
 
 ## 🪪 License
+
 This package is released under the MIT License.
 
 ## ❃ Contributing
+
 Contributions are welcome! If you encounter any issues or have suggestions for improvements, please create an issue on the package's GitHub repository.
-
-
-

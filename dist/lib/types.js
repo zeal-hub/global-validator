@@ -1,4 +1,7 @@
-export var validationErrorMessages;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.message = exports.GlobalValidatorErrorType = exports.rangeValidationsErrors = exports.validationErrors = exports.validationErrorMessages = void 0;
+var validationErrorMessages;
 (function (validationErrorMessages) {
     validationErrorMessages["ContainsTextPassword"] = "The provided value cannot contain letter";
     validationErrorMessages["HasInvalidCharacter"] = "The provided value has invalid characters";
@@ -20,8 +23,8 @@ export var validationErrorMessages;
     validationErrorMessages["DigitsLengthTooShort"] = "Length of digits is too short";
     validationErrorMessages["LettersLengthTooShort"] = "Length of letters in the provided value is too short";
     validationErrorMessages["SymbolsLengthTooShort"] = "Length of symbols in the provided value is too short. add more symbols";
-})(validationErrorMessages || (validationErrorMessages = {}));
-export var validationErrors;
+})(validationErrorMessages = exports.validationErrorMessages || (exports.validationErrorMessages = {}));
+var validationErrors;
 (function (validationErrors) {
     validationErrors["ContainsTextPassword"] = "ContainsTextPassword";
     validationErrors["HasInvalidCharacter"] = "HasInvalidCharacter";
@@ -43,18 +46,18 @@ export var validationErrors;
     validationErrors["DigitsLengthTooShort"] = "DigitsLengthTooShort";
     validationErrors["LettersLengthTooShort"] = "LettersLengthTooShort";
     validationErrors["SymbolsLengthTooShort"] = "SymbolsLengthTooShort";
-})(validationErrors || (validationErrors = {}));
-export var rangeValidationsErrors;
+})(validationErrors = exports.validationErrors || (exports.validationErrors = {}));
+var rangeValidationsErrors;
 (function (rangeValidationsErrors) {
     rangeValidationsErrors["notInRange"] = "The provided value is out of range";
     rangeValidationsErrors["lessThan"] = "The provided value is less than the lowest allowed number";
     rangeValidationsErrors["greaterThan"] = "The provided value is higher than the highest allowed number";
-})(rangeValidationsErrors || (rangeValidationsErrors = {}));
-export var GlobalValidatorErrorType;
+})(rangeValidationsErrors = exports.rangeValidationsErrors || (exports.rangeValidationsErrors = {}));
+var GlobalValidatorErrorType;
 (function (GlobalValidatorErrorType) {
     GlobalValidatorErrorType[GlobalValidatorErrorType["INVALID_CHARACTER"] = 0] = "INVALID_CHARACTER";
-})(GlobalValidatorErrorType || (GlobalValidatorErrorType = {}));
-export const message = {
+})(GlobalValidatorErrorType = exports.GlobalValidatorErrorType || (exports.GlobalValidatorErrorType = {}));
+exports.message = {
     validationErrors: validationErrorMessages,
     rangeValidatorErrors: rangeValidationsErrors,
 };

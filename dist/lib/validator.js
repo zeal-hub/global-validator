@@ -1,43 +1,21 @@
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _GlobalValidator_instances, _GlobalValidator_validatePhoneNumber;
-import error_generator from "../helpers/error_generator";
-import get_min_max from "../helpers/get_min_max";
-import reformat_country_method from "../helpers/reformat_country_method";
-import { countriesDetail } from "./countries";
-import { validationErrors, } from "./types";
-export default class GlobalValidator {
+Object.defineProperty(exports, "__esModule", { value: true });
+const error_generator_1 = __importDefault(require("../helpers/error_generator"));
+const get_min_max_1 = __importDefault(require("../helpers/get_min_max"));
+const reformat_country_method_1 = __importDefault(require("../helpers/reformat_country_method"));
+const countries_1 = require("./countries");
+const types_1 = require("./types");
+class GlobalValidator {
+    // tell if user class method is called internally
+    // then save error instead of return boolean
+    internal = false;
+    methodName;
+    phone_number;
+    errors = [];
     constructor() {
-        _GlobalValidator_instances.add(this);
-        // tell if user class method is called internally
-        // then save error instead of return boolean
-        Object.defineProperty(this, "internal", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: false
-        });
-        Object.defineProperty(this, "methodName", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "phone_number", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
-        Object.defineProperty(this, "errors", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: []
-        });
         const handler = {
             get: (target, prop) => {
                 target.methodName = prop;
@@ -45,7 +23,7 @@ export default class GlobalValidator {
                     return target[prop];
                 }
                 else {
-                    return __classPrivateFieldGet(target, _GlobalValidator_instances, "m", _GlobalValidator_validatePhoneNumber).bind(target);
+                    return target.#validatePhoneNumber.bind(target);
                 }
             },
         };
@@ -77,16 +55,16 @@ export default class GlobalValidator {
                 .map((field) => regexMap[field].source)
                 .join("")}]`);
             if (regex.test(value))
-                this.errors.push(error_generator(validationErrors.HasInvalidCharacter));
+                this.errors.push((0, error_generator_1.default)(types_1.validationErrors.HasInvalidCharacter));
         }
     }
     has_length(value, len) {
-        const [lowest, highest] = get_min_max(len);
+        const [lowest, highest] = (0, get_min_max_1.default)(len);
         if (value.length < lowest) {
-            return !this.errors.push(error_generator(validationErrors.TooShort));
+            return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.TooShort));
         }
         if (value.length > highest) {
-            return !this.errors.push(error_generator(validationErrors.TooLong));
+            return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.TooLong));
         }
         else
             return true;
@@ -99,7 +77,7 @@ export default class GlobalValidator {
         }
         // --------------------
         if (value.includes(notIncludeValue)) {
-            return !this.errors.push(error_generator(validationErrors.IncludeNotAllowedWord));
+            return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.IncludeNotAllowedWord));
         }
         return true;
     }
@@ -110,13 +88,13 @@ export default class GlobalValidator {
             if (minLen > upperLetters) {
                 if (!this.internal)
                     return false;
-                return !this.errors.push(error_generator(validationErrors.UpperCaseLettersTooShort));
+                return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.UpperCaseLettersTooShort));
             }
         }
         if (this.internal) {
             return upperLetters
                 ? true
-                : !this.errors.push(error_generator(validationErrors.HasNoUpperCase));
+                : !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.HasNoUpperCase));
         }
         return upperLetters ? true : false;
     }
@@ -127,13 +105,13 @@ export default class GlobalValidator {
             if (minLen > lowerLetters) {
                 if (!this.internal)
                     return false;
-                return !this.errors.push(error_generator(validationErrors.LowerCaseLettersTooShort));
+                return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.LowerCaseLettersTooShort));
             }
         }
         if (this.internal) {
             return lowerLetters
                 ? true
-                : !this.errors.push(error_generator(validationErrors.HasNoLowerCase));
+                : !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.HasNoLowerCase));
         }
         return lowerLetters ? true : false;
     }
@@ -144,10 +122,10 @@ export default class GlobalValidator {
             if (minLen > letters) {
                 if (!this.internal)
                     return false;
-                return !this.errors.push(error_generator(validationErrors.LettersLengthTooShort));
+                return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.LettersLengthTooShort));
             }
         }
-        error = error_generator(validationErrors.HasNoLetter);
+        error = (0, error_generator_1.default)(types_1.validationErrors.HasNoLetter);
         if (this.internal) {
             return letters ? true : !this.errors.push(error);
         }
@@ -160,10 +138,10 @@ export default class GlobalValidator {
             if (minLen > digits) {
                 if (!this.internal)
                     return false;
-                return !this.errors.push(error_generator(validationErrors.DigitsLengthTooShort));
+                return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.DigitsLengthTooShort));
             }
         }
-        error = error_generator(validationErrors.HasNoDigit);
+        error = (0, error_generator_1.default)(types_1.validationErrors.HasNoDigit);
         if (this.internal) {
             return digits ? true : !this.errors.push(error);
         }
@@ -176,10 +154,10 @@ export default class GlobalValidator {
             if (minLen > symbols) {
                 if (!this.internal)
                     return false;
-                return !this.errors.push(error_generator(validationErrors.SymbolsLengthTooShort));
+                return !this.errors.push((0, error_generator_1.default)(types_1.validationErrors.SymbolsLengthTooShort));
             }
         }
-        error = error_generator(validationErrors.HasNoSymbol);
+        error = (0, error_generator_1.default)(types_1.validationErrors.HasNoSymbol);
         if (this.internal) {
             return symbols ? true : !this.errors.push(error);
         }
@@ -201,7 +179,7 @@ export default class GlobalValidator {
             let error = action == "endsWith"
                 ? "NotEndWithRightCharacter"
                 : "EndsWithWrongCharacter";
-            this.errors.push(error_generator(validationErrors[error]));
+            this.errors.push((0, error_generator_1.default)(types_1.validationErrors[error]));
         }
     }
     checkStart(value, check, action) {
@@ -220,7 +198,7 @@ export default class GlobalValidator {
             let error = action == "startsWith"
                 ? "NotStartWithRightCharacter"
                 : "StartsWithWrongCharacter";
-            this.errors.push(error_generator(validationErrors[error]));
+            this.errors.push((0, error_generator_1.default)(types_1.validationErrors[error]));
         }
     }
     validate(config) {
@@ -374,7 +352,7 @@ export default class GlobalValidator {
                 // check if value doesn't have a whitespace
                 let regex = /\s/;
                 if (regex.test(password)) {
-                    this.errors.push(error_generator(validationErrors.HasInvalidCharacter));
+                    this.errors.push((0, error_generator_1.default)(types_1.validationErrors.HasInvalidCharacter));
                 }
             }
             let strengthRate = Object.values(strength).filter((t) => t).length;
@@ -401,35 +379,36 @@ export default class GlobalValidator {
         this.phone_number = num;
         return this;
     }
+    #validatePhoneNumber() {
+        if (!this.phone_number)
+            return console.error(Error("No phone number is provided"));
+        // remove non-digit from country phone number format
+        const phone_number = this.phone_number.replace(/\D/g, "");
+        // remove Is from method and add space if it is required like IsSouthAfrica after formatting = South Africa
+        const countryName = (0, reformat_country_method_1.default)(this.methodName);
+        // get country detail
+        let country = countries_1.countriesDetail[countryName];
+        // check if country is found in the available list of countries we have
+        if (!country) {
+            throw new Error(`method or country validation ${this.methodName} does not exist`);
+        }
+        let countryDialCode = country.dialCode.substring(1);
+        let phone_number_country_code = phone_number.substring(0, 
+        // extract to the length of the country code + 1
+        countryDialCode.length);
+        // Checking the country code if matched, to save further processing...
+        if (countryDialCode !== phone_number_country_code) {
+            return false;
+        }
+        let regex = new RegExp(`^${countryDialCode}[0-9]{${country.phoneNumberLength}}$`);
+        if (!regex.test(phone_number))
+            return false;
+        // user might only want to check if the phone_number is equal to
+        // length of the targeted country phone numbers length.
+        // in this case, the phone number is valid
+        // if (onlyLength) return true;
+        // continuing to the next phase: means that the user want the number to in the country phone format. e.g +2349045567832 -> +234 904 556 7832
+        return true;
+    }
 }
-_GlobalValidator_instances = new WeakSet(), _GlobalValidator_validatePhoneNumber = function _GlobalValidator_validatePhoneNumber() {
-    if (!this.phone_number)
-        return console.error(Error("No phone number is provided"));
-    // remove non-digit from country phone number format
-    const phone_number = this.phone_number.replace(/\D/g, "");
-    // remove Is from method and add space if it is required like IsSouthAfrica after formatting = South Africa
-    const countryName = reformat_country_method(this.methodName);
-    // get country detail
-    let country = countriesDetail[countryName];
-    // check if country is found in the available list of countries we have
-    if (!country) {
-        throw new Error(`method or country validation ${this.methodName} does not exist`);
-    }
-    let countryDialCode = country.dialCode.substring(1);
-    let phone_number_country_code = phone_number.substring(0, 
-    // extract to the length of the country code + 1
-    countryDialCode.length);
-    // Checking the country code if matched, to save further processing...
-    if (countryDialCode !== phone_number_country_code) {
-        return false;
-    }
-    let regex = new RegExp(`^${countryDialCode}[0-9]{${country.phoneNumberLength}}$`);
-    if (!regex.test(phone_number))
-        return false;
-    // user might only want to check if the phone_number is equal to
-    // length of the targeted country phone numbers length.
-    // in this case, the phone number is valid
-    // if (onlyLength) return true;
-    // continuing to the next phase: means that the user want the number to in the country phone format. e.g +2349045567832 -> +234 904 556 7832
-    return true;
-};
+exports.default = GlobalValidator;

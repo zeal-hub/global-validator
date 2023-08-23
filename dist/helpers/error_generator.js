@@ -1,10 +1,13 @@
-import { message, } from "../lib/types";
-export default function error_generator(type) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const types_1 = require("../lib/types");
+function error_generator(type) {
     return {
-        validationErrorMessage: message.validationErrors[type],
+        validationErrorMessage: types_1.message.validationErrors[type],
         errorCode: formatErrorType(type),
     };
 }
+exports.default = error_generator;
 function formatErrorType(error_type) {
     let newString = toLowCase(error_type.charAt(0)) +
         error_type

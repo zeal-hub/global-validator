@@ -1,3 +1,4 @@
+"use strict";
 // export const countries = [
 //   {
 //     name: "Argentina",
@@ -384,7 +385,9 @@
 //     phoneRegExp: "^\\+263 [0-9]{3} [0-9]{3} [0-9]{4}$",
 //   },
 // ] as const;
-export const countriesNames = [
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.countriesDetail = exports.countriesNames = void 0;
+exports.countriesNames = [
     "Afghanistan",
     "Albania",
     "Algeria",
@@ -583,7 +586,7 @@ export const countriesNames = [
     "Zimbabwe",
 ];
 // console.log(countries);
-export const countriesDetail = {
+exports.countriesDetail = {
     Afghanistan: {
         dialCode: "+93",
         phoneNumberLength: 10,

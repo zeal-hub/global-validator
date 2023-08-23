@@ -1,4 +1,6 @@
-export default function get_min_max(len) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function get_min_max(len) {
     if (typeof len !== "string") {
         throw new Error("GlobalValidatorError -> Invalid Length Field: length field must be string,i.e '3:'");
     }
@@ -28,3 +30,4 @@ export default function get_min_max(len) {
     }
     return [lowest, highest];
 }
+exports.default = get_min_max;
